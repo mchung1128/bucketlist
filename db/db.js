@@ -61,8 +61,23 @@ const deleteItem = (data) => {
 //   var params = [data.]
 // }
 
+const updateItem = (data) => {
+  var query = 'update list set completed = ? where item = ?;'
+  var params = [!data.completed, data.item];
+  return new Promise((resolve, reject) => {
+    db.query(query, params, (err, updatedItem) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(updatedItem)
+      }
+    })
+  })
+}
+
 module.exports = {
   getAllItems,
   addItem,
-  deleteItem
+  deleteItem,
+  updateItem
 }
