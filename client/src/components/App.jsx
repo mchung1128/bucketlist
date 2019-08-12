@@ -12,6 +12,30 @@ class App extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(data) {
+    console.log('i was clicked')
+    var listItem = {
+      completed: data.completed,
+      item: data.item
+    }
+    console.log(listItem)
+    fetch('/list', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(listItem)
+    })
+      .then(() => {
+        fetch('/list')
+        .then((res) => res.json())
+        .then(list => this.setState({
+          items: list
+        }))
+        .catch(err => console.log(`Error getting updated list: ${err}`))
+      })
+      .catch(err => console.log(`Error updating list: ${err}`))
   }
 
   handleChange(e) {
@@ -58,7 +82,7 @@ class App extends React.Component {
       <div>
         <h3>Get Out and Live</h3>
         <Input handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-        <List items={this.state.items}/>
+        <List items={this.state.items} handleClick={this.handleClick}/>
       </div>
     )
   }
