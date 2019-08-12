@@ -1,5 +1,5 @@
 import React from 'react';
-// import Input from './Input.jsx';
+import Input from './Input.jsx';
 import List from './List.jsx';
 
 class App extends React.Component {
@@ -57,23 +57,7 @@ class App extends React.Component {
     return (
       <div>
         <h3>Get Out and Live</h3>
-        <form>
-          <label>Category:
-            <select name="category" onChange={this.handleChange}>
-              <option>Choose one</option>
-              <option>Places I want to go</option>
-              <option>Things I want to eat/drink</option>
-              <option>Skills I want to learn</option>
-              <option>Things I want to do</option>
-              <option>Books I want to read</option>
-              <option>TV Shows/Movies I want to watch</option>
-            </select>
-          </label>
-          <label>
-            <input type="text" name="value" onChange={this.handleChange}></input>
-          </label>
-          <input type="submit" onClick={this.handleSubmit}/>
-        </form>
+        <Input handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
         <List items={this.state.items}/>
       </div>
     )
