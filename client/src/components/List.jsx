@@ -11,11 +11,11 @@ const categoryArr = (list) => {
   return categories;
 }
 
-const List = ({ items }) => {
+const List = ({ items, handleClick }) => {
   const categories = categoryArr(items);
   return (
     <div>
-      {categories.map(category => <Category category={category} items={items}/>)}
+      {categories.map(category => <Category category={category} items={items} handleClick={handleClick}/>)}
     </div>
   )
 }
