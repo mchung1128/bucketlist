@@ -21,4 +21,11 @@ app.post('/list', (req, res) => {
     .catch(err => console.log(`Error adding item: ${err}`))
 });
 
+app.put('/list', (req, res) => {
+  var data = req.body;
+  db.updateItem(data)
+    .then(item => res.status(200).send(data).end())
+    .catch(err => console.log(`Error updating item: ${err}`))
+})
+
 app.listen(PORT, () => console.log(`Express server running on port ${PORT}`));
