@@ -1,5 +1,16 @@
 import React from 'react';
 import Category from './Category.jsx';
+import styled from 'styled-components';
+
+const ListContainer = styled.div`
+  background-color: #048998;
+  width: 50%;
+  margin-top: 2%;
+  height: inherit;
+  overflow: auto;
+  margin-left: 1%;
+  border-radius: 20px;
+`
 
 const categoryArr = (list) => {
   var categories = [];
@@ -11,12 +22,12 @@ const categoryArr = (list) => {
   return categories;
 }
 
-const List = ({ items, handleClick }) => {
+const List = ({ items, handleClick, deleteItem }) => {
   const categories = categoryArr(items);
   return (
-    <div>
-      {categories.map(category => <Category category={category} items={items} handleClick={handleClick}/>)}
-    </div>
+    <ListContainer>
+      {categories.map(category => <Category category={category} items={items} handleClick={handleClick} deleteItem={deleteItem}/>)}
+    </ListContainer>
   )
 }
 
