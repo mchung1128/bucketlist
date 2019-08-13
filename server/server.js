@@ -24,8 +24,15 @@ app.post('/list', (req, res) => {
 app.put('/list', (req, res) => {
   var data = req.body;
   db.updateItem(data)
-    .then(item => res.status(200).send(data).end())
+    .then(item => res.status(200).send(item).end())
     .catch(err => console.log(`Error updating item: ${err}`))
-})
+});
+
+app.delete('/list', (req, res) => {
+  var data = req.body;
+  db.deleteItem(data)
+    .then((item) => res.status(200).send(item).end())
+    .catch(err => console.log(`Error deleting item: ${err}`))
+});
 
 app.listen(PORT, () => console.log(`Express server running on port ${PORT}`));
