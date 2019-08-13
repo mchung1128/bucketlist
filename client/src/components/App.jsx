@@ -1,6 +1,32 @@
 import React from 'react';
 import Input from './Input.jsx';
 import List from './List.jsx';
+import styled from 'styled-components';
+
+const Header = styled.h1 `
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: #f6f5f5;
+  font-size: 5em;
+  font-family: 'Ubuntu', sans-serif;
+`
+
+const Banner = styled.h3`
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: #f6f5f5;
+  font-family: 'Montserrat';
+`
+
+const Background = styled.div`
+  background-color: #3bb4c1;
+`
 
 class App extends React.Component {
   constructor(props) {
@@ -13,15 +39,14 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   handleClick(data) {
-    console.log('i was clicked')
     var listItem = {
       completed: data.completed,
       item: data.item
     }
-    console.log(listItem)
     fetch('/list', {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
@@ -36,6 +61,23 @@ class App extends React.Component {
         .catch(err => console.log(`Error getting updated list: ${err}`))
       })
       .catch(err => console.log(`Error updating list: ${err}`))
+  }
+
+  deleteItem(item) {
+    fetch('/list', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(item)
+    })
+      .then(() => {
+        fetch('/list')
+        .then((res) => res.json())
+        .then(list => this.setState({
+          items: list
+        }))
+        .catch(err => console.log(`Error getting list after deletion: ${err}`))
+      })
+      .catch(err => console.log(`Error deleting: ${err}`))
   }
 
   handleChange(e) {
@@ -79,11 +121,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Get Out and Live</h3>
+      <Background>
+        <Header>GOAL List</Header>
+        <Banner>Get Out and Live</Banner>
         <Input handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-        <List items={this.state.items} handleClick={this.handleClick}/>
-      </div>
+        <List items={this.state.items} handleClick={this.handleClick} deleteItem={this.deleteItem}/>
+      </Background>
     )
   }
 }
