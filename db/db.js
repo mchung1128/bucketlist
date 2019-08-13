@@ -8,7 +8,7 @@ const db = mysql.createConnection({
 
 db.connect(err => {
   if (err) {
-    console.log(`Error connecting to MySQL`)
+    console.log(`Error connecting to MySQL: ${err}`)
   } else {
     console.log(`Connected to MySQL!`)
   }
@@ -24,9 +24,9 @@ const getAllItems = () => {
       } else {
         resolve(items)
       }
-    })
-  })
-}
+    });
+  });
+};
 
 const addItem = (data) => {
   var query = 'insert into list (category, item) values (?, ?);'
@@ -40,11 +40,11 @@ const addItem = (data) => {
       }
     });
   });
-}
+};
 
 const deleteItem = (data) => {
-  var query = 'delete from list where item = ?;'
-  var params = data.value;
+  var query = 'delete from list where item = ? and category = ?;'
+  var params = [data.item, data.category];
   return new Promise((resolve, reject) => {
     db.query(query, params, (err, item) => {
       if (err) {
@@ -52,14 +52,9 @@ const deleteItem = (data) => {
       } else {
         resolve(item)
       }
-    })
-  })
-}
-
-// const editItem = (data) => {
-//   var query = 'update list set item = ? where item = ?;'
-//   var params = [data.]
-// }
+    });
+  });
+};
 
 const updateItem = (data) => {
   var query = 'update list set completed = ? where item = ?;'
@@ -71,13 +66,13 @@ const updateItem = (data) => {
       } else {
         resolve(updatedItem)
       }
-    })
-  })
-}
+    });
+  });
+};
 
 module.exports = {
   getAllItems,
   addItem,
   deleteItem,
   updateItem
-}
+};
